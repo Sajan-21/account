@@ -28,5 +28,16 @@ async function sendEmail(event) {
     console.log("email : ",email);
     alert("chceck your email for the otp");
     window.location = `otp-verification.html`;
-    let response = await fetch();
+    let response = await fetch('/sendOtp',{
+        method : 'POST',
+        headers : {
+            'Content-Type' : 'application/text'
+        },
+        body : email
+    });
+    let parsed_response = await response.json();
+    console.log("parsed_response : ",parsed_response);
+    let otp = parsed_response.data;
+    // console.log("otp : ",otp);
+    
 }
