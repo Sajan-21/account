@@ -1,39 +1,55 @@
-const sendEmail = require('../utils/send-email').sendEmail;
-const otpEmailTemplate = require('../utils/emailTemplates/otpEmailTemplate').setOTP;
-const {error_function, success_function} = require('../utils/response-handler');
+const { error_function, success_function } = require("../utils/response-handler");
+const users = require("../db/models/users");
 
-exports.otp = async function(req, res) {
+exports.otpVerification = async function(req, res) {
+    let body = req.body;
+    console.log("body : ", body);
+
+    let otp = body.otp;
+    console.log("otp : ",otp);
+    let email = body.email;
+    console.log("email : ", email);
+
     try {
-        let email = req.body.email;
-    // console.log("email : ",email);
-    function generateOtp(length) {
-        let charset = "0123456789";
-        let otp = "";
-        
-        for(var i = 0; i < length; i++) {
-            var randomIndex = Math.floor(Math.random()*charset.length);
-            otp += charset.charAt(randomIndex);
+        let user = await users.findOne({ email });
+        console.log("user : ", user);
+
+        if (!user) {
+            console.log("no user found");
+            let response = error_function({
+                statusCode: 404,
+                message: "Email not registered. Please check your email address.",
+            });
+            res.status(response.statusCode).send(response);
+            return;
         }
-        return otp;
-    }
-    var randomOtp = generateOtp(12);
-    console.log("random otp : ",randomOtp);
-    let emailTemplate = await otpEmailTemplate(email, randomOtp);
-    await sendEmail(email, "otp for verification", emailTemplate);
-    let response = success_function({
-        statusCode : 200,
-        message : "otp sent successfully",
-        data : otp,
-    });
-    res.status(response.statusCode).send(response);
-    return;
-    } catch (error) {
-        console.log("error : ",error);
-        let response = error_function({
-            statusCode : 400,
-            message : error.message ? error.message : "something went wrong",
+        
+        if (user.otp !== otp) {
+            let response = error_function({
+                statusCode: 400,
+                message: "Invalid OTP. Please check the OTP and try again.",
+            });
+            res.status(response.statusCode).send(response);
+            return;
+        }
+
+        // OTP is correct, update it to null
+        await users.updateOne({ email }, { $set: { otp: null } });
+        console.log("OTP set to null");
+
+        let response = success_function({
+            statusCode: 200,
+            message: `OTP verification succeeded`,
+            data : user._id,
         });
         res.status(response.statusCode).send(response);
-        return;
+
+    } catch (error) {
+        console.log("error: ", error);
+        let response = error_function({
+            statusCode: 500,
+            message: error.message || "Something went wrong. Please try again.",
+        });
+        res.status(response.statusCode).send(response);
     }
-}
+};

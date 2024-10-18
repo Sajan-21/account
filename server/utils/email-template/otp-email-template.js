@@ -1,4 +1,4 @@
-exports.setOTP = function (name, OTP) {
+exports.sendOtpTemplate = function (name, otp) {
     return new Promise(async (resolve, reject) => {
       try {
         let template = `
@@ -126,9 +126,9 @@ exports.setOTP = function (name, OTP) {
                                   
                                                                 <span class="text-dark">
                                     <!--add any text here-->
-                                Your OTP :
+                                Your password :
                               </span>
-                              <b class="text-warning">${OTP}</b>
+                              <b class="text-warning">${otp}</b>
                               <br><br>
                               <span class="text-dark">
                              Please do not show or forward it to third parties.
@@ -154,7 +154,7 @@ exports.setOTP = function (name, OTP) {
         resolve(template);
       }
       catch (error) {
-        console.log(error);
+        //console.log(error);
         reject(error);
       }
     })

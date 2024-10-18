@@ -5,7 +5,7 @@ exports.success_function = function(api_data) {
         message : api_data.message ? api_data.message : null,
         data : api_data.data ? api_data : null
     }
-    return;
+    return response;
 }
 
 exports.error_function = function(api_data) {
@@ -15,5 +15,5 @@ exports.error_function = function(api_data) {
         message : api_data.message ? api_data.message : null,
         data : api_data.data ? api_data : null
     }
-    return;
+    return response;
 }

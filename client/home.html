@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <title>otp-verification</title>
+        <title>home-page</title>
         <!-- Required meta tags -->
         <meta charset="utf-8" />
         <meta
@@ -16,30 +16,20 @@
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
             crossorigin="anonymous"
         />
-        <link rel="stylesheet" href="otp-verification.css">
+        <link rel="stylesheet" href="home.css">
     </head>
 
-    <body>
+    <body onload="home()">
         <header>
             <!-- place navbar here -->
         </header>
-        <main class="container-custom d-flex justify-content-center align-items-center">
-
-                <div class="col height d-flex align-items-center justify-content-center">
-                    <form onsubmit="verifyOtp(event)" class="border rounded p-5 d-flex justify-content-center align-items-center gap-5 shadow p-3 mb-5 bg-warning rounded">
-                        <div class="d-flex flex-column align-items-center justify-content-center gap-3">
-                            <label for="otp" class="fs-3 fw-bold text-light">Enter OTP for the verification</label>
-                            <input type="text" name="otp" id="otp" class="p-2 rounded-pill w-50 text-center">
-                        </div>
-                        <div>
-                            <input type="submit" value="Verify" id="verify" class="rounded-pill bg-light border-0 text-dark px-3 py-2">
-                        </div>
-                    </form>
+        <main>
+            <div class="welcome-div d-flex justify-content-center align-items-center">
+                <div class="text-center">
+                    <img src="./imgs/79d02a1d3daa85f01cc867290d6d9fa7-removebg-preview.png" class="w-50" alt="">
                 </div>
-                <div class="col">
-                    <div><img src="./imgs/94399a5dbcf7cf3d027378a466ccbb12.jpg" alt=""></div>
-                </div>
-                
+                <div id="welcome-statement"></div>
+            </div>
         </main>
         <footer>
             <!-- place footer here -->
